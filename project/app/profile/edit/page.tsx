@@ -20,7 +20,7 @@ import { Switch } from "@/components/ui/switch";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { useAuth } from "@/components/auth-provider";
-import { saveProfile, getProfile } from "@/lib/profile";
+import { saveProfile, getProfile, PROFILE_KEY } from "@/lib/profile";
 import { categories } from "@/lib/providers";
 
 const responseTimeOptions = ["Under 1 hour", "Under 2 hours", "Under 4 hours", "Under 24 hours"];
