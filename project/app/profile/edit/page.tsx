@@ -51,21 +51,20 @@ export default function EditProfilePage() {
 
   useEffect(() => {
     if (!user) return;
-    try {
-      const raw = localStorage.getItem(PROFILE_KEY);
-      if (raw) {
-        const data = JSON.parse(raw);
-        setFullName(data.fullName || "");
-        setTitle(data.title || "");
-        setCategory(data.category || "");
-        setLocation(data.location || "");
-        setIsLocal(data.isLocal || false);
-        setPrice(data.price?.toString() || "");
-        setAbout(data.about || "");
-        setSkills(data.skills || []);
-        setResponseTime(data.responseTime || "");
-      }
-    } catch { /* ignore */ }
+   try {
+  const data = getProfile();
+  if (data) {
+    setFullName(data.fullName || "");
+    setTitle(data.title || "");
+    setCategory(data.category || "");
+    setLocation(data.location || "");
+    setIsLocal(data.isLocal || false);
+    setPrice(data.price?.toString() || "");
+    setAbout(data.about || "");
+    setSkills(data.skills || []);
+    setResponseTime(data.responseTime || "");
+  }
+} catch { /* ignore */ }
     setLoading(false);
   }, [user]);
 
