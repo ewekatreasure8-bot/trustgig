@@ -19,7 +19,6 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { saveProfile, getProfile, type ProfileData } from "@/lib/profile";
 import { categories } from "@/lib/providers";
-import { saveProfile, getProfile, type ProfileData } from "@/lib/profile";
 
 const responseTimeOptions = ["Under 1 hour", "Under 2 hours", "Under 4 hours", "Under 24 hours"];
 
