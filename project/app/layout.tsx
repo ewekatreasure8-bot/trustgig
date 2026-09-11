@@ -7,6 +7,7 @@ import { AIChatbox } from '@/components/ai-chatbox';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://trustgig-app.vercel.app"),
   title: 'TrustGig — Hire vetted professionals you can trust',
   description:
     'Secure escrow payments, verified profiles, and live location tracking. Find trusted local and remote professionals for any job.',
