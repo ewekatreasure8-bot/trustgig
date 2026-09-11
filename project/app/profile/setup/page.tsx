@@ -17,9 +17,8 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
-import { useAuth } from "@/components/auth-provider";
+import { saveProfile, getProfile, type ProfileData } from "@/lib/profile";
+import { categories } from "@/lib/providers";
 import { saveProfile, getProfile, type ProfileData } from "@/lib/profile";
 
 const responseTimeOptions = ["Under 1 hour", "Under 2 hours", "Under 4 hours", "Under 24 hours"];
