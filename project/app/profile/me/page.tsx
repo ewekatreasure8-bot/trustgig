@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
-  Shield, Star, MapPin, BadgeCheck, Clock, CheckCircle2,
-  ArrowLeft, Pencil, Loader2, Briefcase, Wallet,
+  Shield, MapPin, Clock, ArrowLeft, Pencil, Loader2,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -14,12 +13,12 @@ import { Separator } from "@/components/ui/separator";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { useAuth } from "@/components/auth-provider";
-import { getProfile, ProfileData } from "@/lib/profile";
+import { getProfile } from "@/lib/profile";
 
 export default function MyProfilePage() {
   const router = useRouter();
   const { user, loading } = useAuth();
-  const [profile, setProfile] = useState<ProfileData | null>(null);
+  const [profile, setProfile] = useState<any>(null);
   const [loadingProfile, setLoadingProfile] = useState(true);
 
   useEffect(() => {
@@ -85,7 +84,7 @@ export default function MyProfilePage() {
             <div className="-mt-16 flex flex-col gap-6 sm:flex-row sm:items-end">
               <div className="relative">
                 <div className="flex h-28 w-28 items-center justify-center rounded-2xl border-4 border-background bg-primary/10 text-3xl font-bold text-primary shadow-md">
-                  {profile.fullName.split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase()}
+                  {profile.fullName?.split(" ").map((w: string) => w[0]).slice(0, 2).join("").toUpperCase()}
                 </div>
               </div>
               <div className="flex-1">
@@ -124,9 +123,9 @@ export default function MyProfilePage() {
             <Card className="border-border/60">
               <CardContent className="p-6">
                 <h2 className="mb-4 text-lg font-semibold text-foreground">Skills & Expertise</h2>
-                {profile.skills.length > 0 ? (
+                {profile.skills?.length > 0 ? (
                   <div className="flex flex-wrap gap-2">
-                    {profile.skills.map((skill) => (
+                    {profile.skills.map((skill: string) => (
                       <Badge key={skill} variant="secondary" className="px-3 py-1.5">{skill}</Badge>
                     ))}
                   </div>
