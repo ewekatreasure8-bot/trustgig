@@ -14,7 +14,7 @@ import { Separator } from "@/components/ui/separator";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { useAuth } from "@/components/auth-provider";
-import { getProfile } from "@/lib/profile";
+import { getProfile, ProfileData } from "@/lib/profile";
 
 export default function MyProfilePage() {
   const router = useRouter();
@@ -123,7 +123,7 @@ export default function MyProfilePage() {
             </Card>
             <Card className="border-border/60">
               <CardContent className="p-6">
-                <h2 className="mb-4 text-lg font-semibold text-foreground">Skills &amp; Expertise</h2>
+                <h2 className="mb-4 text-lg font-semibold text-foreground">Skills & Expertise</h2>
                 {profile.skills.length > 0 ? (
                   <div className="flex flex-wrap gap-2">
                     {profile.skills.map((skill) => (
