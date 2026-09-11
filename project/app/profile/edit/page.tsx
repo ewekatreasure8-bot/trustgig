@@ -20,7 +20,7 @@ import { Switch } from "@/components/ui/switch";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { useAuth } from "@/components/auth-provider";
-import { saveProfile, getProfile, PROFILE_KEY } from "@/lib/profile";
+import { saveProfile, getProfile } from "@/lib/profile";
 import { categories } from "@/lib/providers";
 
 const responseTimeOptions = ["Under 1 hour", "Under 2 hours", "Under 4 hours", "Under 24 hours"];
@@ -51,20 +51,20 @@ export default function EditProfilePage() {
 
   useEffect(() => {
     if (!user) return;
-   try {
-  const data = getProfile();
-  if (data) {
-    setFullName(data.fullName || "");
-    setTitle(data.title || "");
-    setCategory(data.category || "");
-    setLocation(data.location || "");
-    setIsLocal(data.isLocal || false);
-    setPrice(data.price?.toString() || "");
-    setAbout(data.about || "");
-    setSkills(data.skills || []);
-    setResponseTime(data.responseTime || "");
-  }
-} catch { /* ignore */ }
+    try {
+      const data = getProfile();
+      if (data) {
+        setFullName(data.fullName || "");
+        setTitle(data.title || "");
+        setCategory(data.category || "");
+        setLocation(data.location || "");
+        setIsLocal(data.isLocal || false);
+        setPrice(data.price?.toString() || "");
+        setAbout(data.about || "");
+        setSkills(data.skills || []);
+        setResponseTime(data.responseTime || "");
+      }
+    } catch { /* ignore */ }
     setLoading(false);
   }, [user]);
 
