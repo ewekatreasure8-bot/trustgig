@@ -5,12 +5,11 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   Wallet, ArrowLeft, ArrowDownToLine, ArrowUpFromLine, Shield,
-  Clock, CheckCircle2, AlertCircle, Loader2, TrendingUp, TrendingDown,
+  Clock, CheckCircle2, AlertCircle, Loader2,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
@@ -56,45 +55,69 @@ export default function WalletPage() {
 
   const handleDeposit = () => {
     const amt = parseFloat(amount);
-    if (!amt || amt <= 0) { setError("Enter a valid amount."); return; }
+    if (!amt || amt <= 0) {
+      setError("Enter a valid amount.");
+      return;
+    }
     setBalance(balance + amt);
     setTransactions([
-      { id: crypto.randomUUID(), type: "deposit", amount: amt, description: "Bank deposit", date: new Date().toISOString().split("T")[0] },
+      {
+        id: crypto.randomUUID(),
+        type: "deposit",
+        amount: amt,
+        description: "Bank deposit",
+        date: new Date().toISOString().split("T")[0],
+      },
       ...transactions,
     ]);
-    setAmount(""); setError(null); setShowDeposit(false);
+    setAmount("");
+    setError(null);
+    setShowDeposit(false);
   };
 
   const handleWithdraw = () => {
     const amt = parseFloat(amount);
-    if (!amt || amt <= 0) { setError("Enter a valid amount."); return; }
-    if (amt > balance) { setError("Insufficient available balance."); return; }
+    if (!amt || amt <= 0) {
+      setError("Enter a valid amount.");
+      return;
+    }
+    if (amt > balance) {
+      setError("Insufficient available balance.");
+      return;
+    }
     setBalance(balance - amt);
     setTransactions([
-      { id: crypto.randomUUID(), type: "withdraw", amount: amt, description: "Withdrawal to bank", date: new Date().toISOString().split("T")[0] },
+      {
+        id: crypto.randomUUID(),
+        type: "withdraw",
+        amount: amt,
+        description: "Withdrawal to bank",
+        date: new Date().toISOString().split("T")[0],
+      },
       ...transactions,
     ]);
-    setAmount(""); setError(null); setShowWithdraw(false);
+    setAmount("");
+    setError(null);
+    setShowWithdraw(false);
   };
 
   if (loading || !user) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-secondary/20">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
       </div>
     );
   }
 
   const txIcon = (type: Transaction["type"]) => {
-    if (type === "deposit") return <ArrowDownToLine className="h-4 w-4 text-success" />;
-    if (type === "withdraw") return <ArrowUpFromLine className="h-4 w-4 text-destructive" />;
-    if (type === "escrow-in" || type === "escrow-out") return <Shield className="h-4 w-4 text-primary" />;
-    return <CheckCircle2 className="h-4 w-4 text-success" />;
+    if (type === "deposit") return <ArrowDownToLine className="h-4 w-4 text-muted-foreground" />;
+    if (type === "withdraw") return <ArrowUpFromLine className="h-4 w-4 text-muted-foreground" />;
+    if (type === "escrow-in" || type === "escrow-out") return <Shield className="h-4 w-4 text-muted-foreground" />;
+    return <CheckCircle2 className="h-4 w-4 text-muted-foreground" />;
   };
 
   const txSign = (type: Transaction["type"]) => {
-    if (type === "withdraw") return "-";
-    if (type === "escrow-in") return "-";
+    if (type === "withdraw" || type === "escrow-in") return "-";
     return "+";
   };
 
@@ -103,39 +126,52 @@ export default function WalletPage() {
       <SiteHeader />
 
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-        <Link href="/dashboard" className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground">
+        <Link
+          href="/dashboard"
+          className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+        >
           <ArrowLeft className="h-4 w-4" />
           Back to dashboard
         </Link>
 
+        {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-              <Wallet className="h-6 w-6 text-primary" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-muted">
+              <Wallet className="h-6 w-6 text-muted-foreground" />
             </div>
             <div>
               <h1 className="text-2xl font-bold tracking-tight text-foreground">Wallet</h1>
-              <p className="text-sm text-muted-foreground">Manage your balance, escrow, and transactions</p>
+              <p className="text-sm text-muted-foreground">
+                Manage your balance, escrow, and transactions
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Balance cards */}
+        {/* Balance Cards - Grey Style */}
         <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Card className="border-border/60">
+          <Card className="border-border/60 bg-card">
             <CardContent className="p-6">
               <p className="text-sm text-muted-foreground">Available Balance</p>
-              <p className="mt-1 text-3xl font-bold text-foreground">${balance.toLocaleString()}</p>
-              <p className="mt-1 text-xs text-muted-foreground">Ready to withdraw or spend</p>
+              <p className="mt-1 text-3xl font-bold text-foreground">
+                ${balance.toLocaleString()}
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Ready to withdraw or spend
+              </p>
             </CardContent>
           </Card>
-          <Card className="border-primary/20 bg-primary/5">
+
+          <Card className="border-border/60 bg-muted/40">
             <CardContent className="p-6">
               <div className="flex items-center gap-2">
-                <Shield className="h-4 w-4 text-primary" />
+                <Shield className="h-4 w-4 text-muted-foreground" />
                 <p className="text-sm text-muted-foreground">In Escrow</p>
               </div>
-              <p className="mt-1 text-3xl font-bold text-foreground">${escrow.toLocaleString()}</p>
+              <p className="mt-1 text-3xl font-bold text-foreground">
+                ${escrow.toLocaleString()}
+              </p>
               <p className="mt-1 text-xs text-muted-foreground">
                 Locked until both parties confirm the job is done
               </p>
@@ -143,20 +179,26 @@ export default function WalletPage() {
           </Card>
         </div>
 
-        {/* Escrow notice */}
-        <Alert className="mb-6 border-primary/20 bg-primary/5">
-          <Shield className="h-4 w-4 text-primary" />
-          <AlertDescription className="text-foreground">
-            Escrow funds cannot be withdrawn until both the client and provider confirm the job is complete. This protects both parties during the work.
+        {/* Escrow Notice */}
+        <Alert className="mb-6 border-border/60 bg-muted/30">
+          <Shield className="h-4 w-4 text-muted-foreground" />
+          <AlertDescription className="text-muted-foreground">
+            Escrow funds cannot be withdrawn until both the client and provider confirm the job is complete. This protects both parties.
           </AlertDescription>
         </Alert>
 
-        {/* Action buttons */}
+        {/* Action Buttons */}
         <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <Card className="group cursor-pointer border-border/60 transition-all hover:border-primary/30 hover:shadow-md" onClick={() => { setError(null); setShowDeposit(true); }}>
+          <Card
+            className="cursor-pointer border-border/60 transition-all hover:bg-muted/40"
+            onClick={() => {
+              setError(null);
+              setShowDeposit(true);
+            }}
+          >
             <CardContent className="flex flex-col items-center gap-3 p-6 text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-success/10">
-                <ArrowDownToLine className="h-6 w-6 text-success" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-muted">
+                <ArrowDownToLine className="h-6 w-6 text-muted-foreground" />
               </div>
               <div>
                 <h3 className="font-semibold text-foreground">Deposit</h3>
@@ -165,10 +207,16 @@ export default function WalletPage() {
             </CardContent>
           </Card>
 
-          <Card className="group cursor-pointer border-border/60 transition-all hover:border-primary/30 hover:shadow-md" onClick={() => { setError(null); setShowWithdraw(true); }}>
+          <Card
+            className="cursor-pointer border-border/60 transition-all hover:bg-muted/40"
+            onClick={() => {
+              setError(null);
+              setShowWithdraw(true);
+            }}
+          >
             <CardContent className="flex flex-col items-center gap-3 p-6 text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-destructive/10">
-                <ArrowUpFromLine className="h-6 w-6 text-destructive" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-muted">
+                <ArrowUpFromLine className="h-6 w-6 text-muted-foreground" />
               </div>
               <div>
                 <h3 className="font-semibold text-foreground">Withdraw</h3>
@@ -177,10 +225,13 @@ export default function WalletPage() {
             </CardContent>
           </Card>
 
-          <Card className="group cursor-pointer border-border/60 transition-all hover:border-primary/30 hover:shadow-md" onClick={() => setShowHistory(true)}>
+          <Card
+            className="cursor-pointer border-border/60 transition-all hover:bg-muted/40"
+            onClick={() => setShowHistory(true)}
+          >
             <CardContent className="flex flex-col items-center gap-3 p-6 text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-                <Clock className="h-6 w-6 text-primary" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-muted">
+                <Clock className="h-6 w-6 text-muted-foreground" />
               </div>
               <div>
                 <h3 className="font-semibold text-foreground">Transactions</h3>
@@ -190,24 +241,29 @@ export default function WalletPage() {
           </Card>
         </div>
 
-        {/* Recent transactions preview */}
+        {/* Recent Transactions */}
         <Card className="border-border/60">
           <CardContent className="p-5">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="font-semibold text-foreground">Recent Transactions</h3>
-              <button onClick={() => setShowHistory(true)} className="text-xs text-primary hover:underline">View all</button>
+              <button
+                onClick={() => setShowHistory(true)}
+                className="text-xs text-muted-foreground hover:text-foreground"
+              >
+                View all
+              </button>
             </div>
             <div className="space-y-3">
               {transactions.slice(0, 5).map((tx) => (
                 <div key={tx.id} className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted">
                     {txIcon(tx.type)}
                   </div>
                   <div className="flex-1">
                     <p className="text-sm font-medium text-foreground">{tx.description}</p>
                     <p className="text-xs text-muted-foreground">{tx.date}</p>
                   </div>
-                  <p className={`font-semibold ${tx.type === "withdraw" || tx.type === "escrow-in" ? "text-destructive" : "text-success"}`}>
+                  <p className="font-semibold text-foreground">
                     {txSign(tx.type)}${tx.amount}
                   </p>
                 </div>
@@ -223,13 +279,27 @@ export default function WalletPage() {
           <DialogHeader>
             <DialogTitle>Deposit Funds</DialogTitle>
           </DialogHeader>
-          {error && <Alert variant="destructive"><AlertCircle className="h-4 w-4" /><AlertDescription>{error}</AlertDescription></Alert>}
+          {error && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
           <div className="space-y-2">
             <Label htmlFor="deposit-amount">Amount ($)</Label>
-            <Input id="deposit-amount" type="number" min="1" placeholder="Enter amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
+            <Input
+              id="deposit-amount"
+              type="number"
+              min="1"
+              placeholder="Enter amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowDeposit(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setShowDeposit(false)}>
+              Cancel
+            </Button>
             <Button onClick={handleDeposit}>Deposit</Button>
           </DialogFooter>
         </DialogContent>
@@ -241,14 +311,31 @@ export default function WalletPage() {
           <DialogHeader>
             <DialogTitle>Withdraw Funds</DialogTitle>
           </DialogHeader>
-          {error && <Alert variant="destructive"><AlertCircle className="h-4 w-4" /><AlertDescription>{error}</AlertDescription></Alert>}
+          {error && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
           <div className="space-y-2">
             <Label htmlFor="withdraw-amount">Amount ($)</Label>
-            <Input id="withdraw-amount" type="number" min="1" max={balance} placeholder="Enter amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
-            <p className="text-xs text-muted-foreground">Available: ${balance.toLocaleString()}</p>
+            <Input
+              id="withdraw-amount"
+              type="number"
+              min="1"
+              max={balance}
+              placeholder="Enter amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+            <p className="text-xs text-muted-foreground">
+              Available: ${balance.toLocaleString()}
+            </p>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowWithdraw(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setShowWithdraw(false)}>
+              Cancel
+            </Button>
             <Button onClick={handleWithdraw}>Withdraw</Button>
           </DialogFooter>
         </DialogContent>
@@ -262,22 +349,27 @@ export default function WalletPage() {
           </DialogHeader>
           <div className="max-h-[400px] space-y-3 overflow-y-auto">
             {transactions.map((tx) => (
-              <div key={tx.id} className="flex items-center gap-3 border-b border-border/40 pb-3 last:border-0">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary">
+              <div
+                key={tx.id}
+                className="flex items-center gap-3 border-b border-border/40 pb-3 last:border-0"
+              >
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted">
                   {txIcon(tx.type)}
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-foreground">{tx.description}</p>
                   <p className="text-xs text-muted-foreground">{tx.date}</p>
                 </div>
-                <p className={`font-semibold ${tx.type === "withdraw" || tx.type === "escrow-in" ? "text-destructive" : "text-success"}`}>
+                <p className="font-semibold text-foreground">
                   {txSign(tx.type)}${tx.amount}
                 </p>
               </div>
             ))}
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowHistory(false)}>Close</Button>
+            <Button variant="outline" onClick={() => setShowHistory(false)}>
+              Close
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
