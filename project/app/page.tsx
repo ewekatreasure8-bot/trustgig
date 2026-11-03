@@ -2,169 +2,223 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import {
   Shield,
   Lock,
-  MapPin,
   Star,
-  Search,
   ArrowRight,
   BadgeCheck,
-  Clock,
-  TrendingUp,
+  Play,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { ProviderCard } from "@/components/provider-card";
-import { providers, categories } from "@/lib/providers";
+import { providers } from "@/lib/providers";
+
+const featured = [
+  {
+    id: "priya-sharma",
+    name: "Priya Sharma",
+    title: "UI/UX Designer",
+    location: "Bengaluru, India",
+    rating: 5.0,
+    reviews: 128,
+    price: 45,
+    image:
+      "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&h=200&w=200",
+  },
+  {
+    id: "alex-johnson",
+    name: "Alex Johnson",
+    title: "Full Stack Developer",
+    location: "Toronto, Canada",
+    rating: 4.9,
+    reviews: 96,
+    price: 65,
+    image:
+      "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&h=200&w=200",
+  },
+  {
+    id: "maria-gonzalez",
+    name: "Maria Gonzalez",
+    title: "Digital Marketing Specialist",
+    location: "Mexico City, Mexico",
+    rating: 5.0,
+    reviews: 76,
+    price: 40,
+    image:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&h=200&w=200",
+  },
+  {
+    id: "james-okafor",
+    name: "James Okafor",
+    title: "Data Analyst",
+    location: "Lagos, Nigeria",
+    rating: 4.9,
+    reviews: 63,
+    price: 35,
+    image:
+      "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&h=200&w=200",
+  },
+  {
+    id: "sophie-laurent",
+    name: "Sophie Laurent",
+    title: "Brand & Visual Designer",
+    location: "Lyon, France",
+    rating: 5.0,
+    reviews: 84,
+    price: 50,
+    image:
+      "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&h=200&w=200",
+  },
+].map((p) => {
+  const match = providers.find((x) => x.name === p.name);
+  return { ...p, href: match ? `/providers/${match.id}` : "/search" };
+});
 
 export default function Home() {
   const router = useRouter();
-  const [query, setQuery] = useState("");
-
-  const handleSearch = () => {
-    const params = new URLSearchParams();
-    if (query) params.set("q", query);
-    router.push(`/search?${params.toString()}`);
-  };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <SiteHeader />
 
-      {/* Hero */}
+      {/* Hero — matches mockup */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
-        <div className="absolute -left-40 top-0 h-96 w-96 rounded-full bg-primary/10 blur-3xl" />
-        <div className="absolute -right-40 top-20 h-80 w-80 rounded-full bg-primary/5 blur-3xl" />
-
-        <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-20 sm:px-6 lg:px-8 lg:pb-24 lg:pt-28">
-          <div className="mx-auto max-w-3xl text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/80 px-4 py-1.5 text-sm text-muted-foreground backdrop-blur-sm animate-fade-in">
-              <BadgeCheck className="h-4 w-4 text-primary" />
-              Over 10,000 vetted professionals ready to work
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-50 via-white to-white" />
+        <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-14 sm:px-6 lg:px-8 lg:pb-20 lg:pt-20">
+          <div className="max-w-2xl">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50/80 px-3.5 py-1.5 text-sm font-medium text-blue-700">
+              <BadgeCheck className="h-4 w-4" />
+              Trusted professionals. Vetted for quality.
             </div>
-            <h1 className="text-4xl font-bold tracking-tight text-foreground animate-fade-in-up sm:text-5xl lg:text-6xl">
-              Hire vetted professionals
-              <br />
-              <span className="text-primary">you can trust</span>
+            <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-[3.25rem] lg:leading-[1.15]">
+              Hire vetted professionals{" "}
+              <span className="text-blue-600">you can trust</span>
             </h1>
-            <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground animate-fade-in-up animation-delay-100">
-              Secure escrow payments, verified profiles, and live location
-              tracking when you need it. Find the right pro for any job, local
-              or remote.
+            <p className="mt-5 max-w-lg text-lg leading-relaxed text-slate-500">
+              Access top independent talent, carefully verified for skills,
+              experience, and reliability.
             </p>
-
-            <div className="mx-auto mt-8 flex max-w-xl items-center gap-2 rounded-2xl border border-border/60 bg-background/80 p-2 shadow-lg backdrop-blur-sm animate-fade-in-up animation-delay-200">
-              <div className="relative flex-1">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Find services near you or online..."
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                  className="h-12 border-0 pl-10 text-base shadow-none focus-visible:ring-0"
-                />
-              </div>
-              <Button size="lg" className="h-12 px-6" onClick={handleSearch}>
-                Search
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <Button
+                size="lg"
+                className="h-12 rounded-xl bg-blue-600 px-6 text-base font-semibold hover:bg-blue-700"
+                onClick={() => router.push("/search")}
+              >
+                Find Talent
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+              <Button
+                size="lg"
+                variant="ghost"
+                className="h-12 rounded-xl px-5 text-base font-medium text-blue-600 hover:bg-blue-50 hover:text-blue-700"
+                onClick={() => router.push("/search")}
+              >
+                <Play className="mr-2 h-4 w-4 fill-current" />
+                Learn how it works
               </Button>
             </div>
+          </div>
 
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-2 animate-fade-in-up animation-delay-300">
-              {categories.slice(0, 5).map((cat) => (
-                <Link
-                  key={cat}
-                  href={`/search?category=${encodeURIComponent(cat)}`}
-                  className="rounded-full border border-border/60 bg-background px-4 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary/30 hover:text-foreground"
-                >
-                  {cat}
-                </Link>
-              ))}
-            </div>
+          {/* Trust strip */}
+          <div className="mt-14 flex flex-wrap items-start gap-8 sm:gap-12">
+            {[
+              {
+                icon: Shield,
+                title: "Vetted Professionals",
+                desc: "Background checked",
+              },
+              {
+                icon: Star,
+                title: "Quality Guaranteed",
+                desc: "Satisfaction assured",
+              },
+              {
+                icon: Lock,
+                title: "Secure Payments",
+                desc: "Protected every step",
+              },
+            ].map((item) => (
+              <div key={item.title} className="flex items-start gap-3">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600">
+                  <item.icon className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-slate-900">
+                    {item.title}
+                  </p>
+                  <p className="text-sm text-slate-500">{item.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Trust badges */}
-      <section className="border-y border-border/60 bg-secondary/20">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 divide-y divide-border/60 px-4 sm:grid-cols-3 sm:divide-x sm:divide-y-0 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4 px-6 py-6">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
-              <Lock className="h-6 w-6 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground">Escrow Protected</h3>
-              <p className="text-sm text-muted-foreground">
-                Funds released only when work is confirmed
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4 px-6 py-6">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
-              <BadgeCheck className="h-6 w-6 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground">Verified Profiles</h3>
-              <p className="text-sm text-muted-foreground">
-                Identity and credentials checked
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4 px-6 py-6">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
-              <MapPin className="h-6 w-6 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground">Live Location</h3>
-              <p className="text-sm text-muted-foreground">
-                Real-time tracking for local services
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Recommended providers */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      {/* Featured Professionals */}
+      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-24">
         <div className="mb-8 flex items-end justify-between">
           <div>
-            <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              Recommended for you
+            <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+              Featured Professionals
             </h2>
-            <p className="mt-2 text-muted-foreground">
-              Top-rated professionals available now
+            <p className="mt-1 text-slate-500">
+              Handpicked professionals with verified skills and proven results.
             </p>
           </div>
           <Link
             href="/search"
-            className="hidden items-center gap-1 text-sm font-medium text-primary hover:underline sm:flex"
+            className="hidden items-center gap-1 text-sm font-semibold text-blue-600 hover:text-blue-700 sm:flex"
           >
-            View all
+            View all professionals
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {providers.slice(0, 6).map((provider, i) => (
-            <div
-              key={provider.id}
-              className="animate-fade-in-up"
-              style={{ animationDelay: `${i * 100}ms` }}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {featured.map((pro) => (
+            <Link
+              key={pro.id}
+              href={pro.href}
+              className="group rounded-2xl border border-slate-100 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-100 hover:shadow-md"
             >
-              <ProviderCard provider={provider} />
-            </div>
+              <div className="relative mx-auto h-16 w-16">
+                <img
+                  src={pro.image}
+                  alt={pro.name}
+                  className="h-16 w-16 rounded-full object-cover ring-2 ring-white"
+                />
+                <span className="absolute -bottom-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-white ring-2 ring-white">
+                  <BadgeCheck className="h-3 w-3" />
+                </span>
+              </div>
+              <div className="mt-4 text-center">
+                <h3 className="font-semibold text-slate-900">{pro.name}</h3>
+                <p className="mt-0.5 text-xs font-medium text-blue-600">
+                  Verified
+                </p>
+                <p className="mt-1 text-sm text-slate-500">{pro.title}</p>
+                <p className="mt-0.5 text-xs text-slate-400">{pro.location}</p>
+                <div className="mt-2 flex items-center justify-center gap-1 text-sm">
+                  <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                  <span className="font-medium text-slate-800">
+                    {pro.rating.toFixed(1)}
+                  </span>
+                  <span className="text-slate-400">({pro.reviews})</span>
+                </div>
+                <p className="mt-3 border-t border-slate-100 pt-3 text-base font-bold text-slate-900">
+                  ${pro.price}{" "}
+                  <span className="text-sm font-normal text-slate-400">/hr</span>
+                </p>
+              </div>
+            </Link>
           ))}
         </div>
 
-        <div className="mt-8 text-center sm:hidden">
+        <div className="mt-6 text-center sm:hidden">
           <Link href="/search">
-            <Button variant="outline">
+            <Button variant="outline" className="rounded-xl">
               View all professionals
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
@@ -172,131 +226,161 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="bg-secondary/20 py-16 lg:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-12 text-center">
-            <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              How TrustGig works
+      {/* Marketing strip — trust should not be optional */}
+      <section className="border-y border-slate-100 bg-gradient-to-br from-slate-50 to-blue-50/40">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-20">
+          <div>
+            <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-blue-600">
+              <Shield className="h-4 w-4" />
+              Verified. Trusted. Gig ready.
+            </div>
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+              Trust{" "}
+              <span className="text-blue-600">shouldn't be optional.</span>
             </h2>
-            <p className="mt-2 text-muted-foreground">
-              Three simple steps to get your job done safely
+            <p className="mt-4 max-w-md text-lg text-slate-500">
+              TrustGig connects you with verified professionals you can count
+              on—so you can focus on results, not risks.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-4 text-sm font-medium text-slate-600">
+              <span className="inline-flex items-center gap-1.5">
+                <BadgeCheck className="h-4 w-4 text-blue-600" />
+                Verified Professionals
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <Lock className="h-4 w-4 text-blue-600" />
+                Secure & Private
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <Star className="h-4 w-4 text-blue-600" />
+                Rated & Reviewed
+              </span>
+            </div>
+            <Button
+              size="lg"
+              className="mt-8 h-12 rounded-xl bg-blue-600 px-7 text-base font-semibold hover:bg-blue-700"
+              onClick={() => router.push("/search")}
+            >
+              Find Trusted Talent
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+            <p className="mt-4 text-sm text-slate-500">
+              Built for freelancers.{" "}
+              <span className="font-semibold text-blue-600">Trusted</span> by
+              businesses.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {[
-              {
-                step: "01",
-                title: "Search & Compare",
-                desc: "Browse verified professionals by category, location, price, and reviews. Compare profiles side by side.",
-                icon: Search,
-              },
-              {
-                step: "02",
-                title: "Hire with Escrow",
-                desc: "Fund the job securely through escrow. Your payment is held safely and only released when you confirm the work is done.",
-                icon: Lock,
-              },
-              {
-                step: "03",
-                title: "Track & Confirm",
-                desc: "Track live location for local services. Review the work, confirm completion, and release payment with one click.",
-                icon: MapPin,
-              },
-            ].map((item, i) => (
-              <div
-                key={item.step}
-                className="relative animate-fade-in-up"
-                style={{ animationDelay: `${i * 150}ms` }}
-              >
-                <Card className="h-full border-border/60">
-                  <CardContent className="p-6">
-                    <div className="mb-4 flex items-center justify-between">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-                        <item.icon className="h-6 w-6 text-primary" />
-                      </div>
-                      <span className="text-3xl font-bold text-primary/20">
-                        {item.step}
-                      </span>
+
+          <div className="relative hidden lg:block">
+            <div className="space-y-3">
+              {featured.slice(0, 3).map((pro, i) => (
+                <div
+                  key={pro.id}
+                  className="flex items-center gap-4 rounded-2xl border border-white/80 bg-white p-4 shadow-lg"
+                  style={{ marginLeft: i * 24 }}
+                >
+                  <img
+                    src={pro.image}
+                    alt={pro.name}
+                    className="h-12 w-12 rounded-full object-cover"
+                  />
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <p className="truncate font-semibold text-slate-900">
+                        {pro.title}
+                      </p>
+                      <BadgeCheck className="h-4 w-4 shrink-0 text-blue-600" />
                     </div>
-                    <h3 className="text-lg font-semibold text-foreground">
-                      {item.title}
-                    </h3>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      {item.desc}
+                    <div className="mt-0.5 flex items-center gap-1 text-sm text-slate-500">
+                      <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                      {pro.rating.toFixed(1)} ({pro.reviews} reviews)
+                    </div>
+                    <p className="mt-0.5 text-xs font-medium text-emerald-600">
+                      ● Verified
                     </p>
-                  </CardContent>
-                </Card>
-              </div>
-            ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="py-16 lg:py-20">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
-            {[
-              { value: "10K+", label: "Verified Pros", icon: BadgeCheck },
-              { value: "4.9", label: "Avg. Rating", icon: Star },
-              { value: "500K+", label: "Jobs Completed", icon: TrendingUp },
-              { value: "<2hr", label: "Avg. Response", icon: Clock },
-            ].map((stat, i) => (
-              <div
-                key={stat.label}
-                className="text-center animate-fade-in-up"
-                style={{ animationDelay: `${i * 100}ms` }}
-              >
-                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-                  <stat.icon className="h-6 w-6 text-primary" />
-                </div>
-                <div className="text-3xl font-bold text-foreground">
-                  {stat.value}
-                </div>
-                <div className="mt-1 text-sm text-muted-foreground">
-                  {stat.label}
-                </div>
+      {/* How it works */}
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="mb-10 text-center">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+            How TrustGig works
+          </h2>
+          <p className="mt-2 text-slate-500">
+            Three simple steps to get work done safely
+          </p>
+        </div>
+        <div className="grid gap-6 md:grid-cols-3">
+          {[
+            {
+              step: "1",
+              title: "Find verified talent",
+              desc: "Browse pros by skill, rating, and location. Every profile is checked before it goes live.",
+            },
+            {
+              step: "2",
+              title: "Hire with escrow",
+              desc: "Fund the job first. Money stays locked until you confirm the work is done.",
+            },
+            {
+              step: "3",
+              title: "Approve & release",
+              desc: "Review the delivery, release payment, and leave a review. Track local jobs live when it matters.",
+            },
+          ].map((item) => (
+            <div
+              key={item.step}
+              className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm"
+            >
+              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">
+                {item.step}
               </div>
-            ))}
-          </div>
+              <h3 className="text-lg font-semibold text-slate-900">
+                {item.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-500">
+                {item.desc}
+              </p>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="px-4 pb-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-5xl">
-          <Card className="overflow-hidden border-0 bg-gradient-to-br from-primary to-primary/80 shadow-xl">
-            <CardContent className="flex flex-col items-center gap-6 p-10 text-center lg:flex-row lg:justify-between lg:text-left">
-              <div>
-                <h2 className="text-2xl font-bold text-primary-foreground sm:text-3xl">
-                  Ready to hire a pro you can trust?
-                </h2>
-                <p className="mt-2 text-primary-foreground/80">
-                  Join thousands of clients who found reliable professionals on
-                  TrustGig.
-                </p>
-              </div>
-              <div className="flex shrink-0 gap-3">
-                <Button
-                  size="lg"
-                  variant="secondary"
-                  className="bg-background text-foreground hover:bg-background/90"
-                  asChild
-                >
-                  <Link href="/join">Get Started</Link>
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10"
-                  asChild
-                >
-                  <Link href="/search">Browse Pros</Link>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+      {/* Bottom CTA */}
+      <section className="bg-slate-900">
+        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-4 py-14 sm:px-6 md:flex-row md:items-center lg:px-8">
+          <div>
+            <h2 className="text-2xl font-bold text-white sm:text-3xl">
+              Ready to hire with confidence?
+            </h2>
+            <p className="mt-2 text-slate-400">
+              Your next great hire, minus the guesswork.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Button
+              size="lg"
+              className="h-12 rounded-xl bg-blue-600 px-6 font-semibold hover:bg-blue-700"
+              onClick={() => router.push("/search")}
+            >
+              Find Talent
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="h-12 rounded-xl border-slate-600 bg-transparent px-6 font-semibold text-white hover:bg-slate-800 hover:text-white"
+              onClick={() => router.push("/join")}
+            >
+              Join as a Professional
+            </Button>
+          </div>
         </div>
       </section>
 
