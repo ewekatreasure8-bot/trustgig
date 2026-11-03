@@ -8,379 +8,273 @@ import {
   Star,
   ArrowRight,
   BadgeCheck,
-  Play,
+  MapPin,
+  Search,
+  Wallet,
+  Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { providers } from "@/lib/providers";
 
-const featured = [
-  {
-    id: "priya-sharma",
-    name: "Priya Sharma",
-    title: "UI/UX Designer",
-    location: "Bengaluru, India",
-    rating: 5.0,
-    reviews: 128,
-    price: 45,
-    image:
-      "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&h=200&w=200",
-  },
-  {
-    id: "alex-johnson",
-    name: "Alex Johnson",
-    title: "Full Stack Developer",
-    location: "Toronto, Canada",
-    rating: 4.9,
-    reviews: 96,
-    price: 65,
-    image:
-      "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&h=200&w=200",
-  },
-  {
-    id: "maria-gonzalez",
-    name: "Maria Gonzalez",
-    title: "Digital Marketing Specialist",
-    location: "Mexico City, Mexico",
-    rating: 5.0,
-    reviews: 76,
-    price: 40,
-    image:
-      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&h=200&w=200",
-  },
-  {
-    id: "james-okafor",
-    name: "James Okafor",
-    title: "Data Analyst",
-    location: "Lagos, Nigeria",
-    rating: 4.9,
-    reviews: 63,
-    price: 35,
-    image:
-      "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&h=200&w=200",
-  },
-  {
-    id: "sophie-laurent",
-    name: "Sophie Laurent",
-    title: "Brand & Visual Designer",
-    location: "Lyon, France",
-    rating: 5.0,
-    reviews: 84,
-    price: 50,
-    image:
-      "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&h=200&w=200",
-  },
-].map((p) => {
-  const match = providers.find((x) => x.name === p.name);
-  return { ...p, href: match ? `/providers/${match.id}` : "/search" };
-});
+const featured = providers.slice(0, 3);
 
 export default function Home() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen overflow-x-hidden bg-[#e8f4fc]">
       <SiteHeader />
 
-      {/* Hero — matches mockup */}
-      <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-50 via-white to-white" />
-        <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-14 sm:px-6 lg:px-8 lg:pb-20 lg:pt-20">
-          <div className="max-w-2xl">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50/80 px-3.5 py-1.5 text-sm font-medium text-blue-700">
-              <BadgeCheck className="h-4 w-4" />
-              Trusted professionals. Vetted for quality.
-            </div>
-            <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-[3.25rem] lg:leading-[1.15]">
-              Hire vetted professionals{" "}
-              <span className="text-blue-600">you can trust</span>
+      <section className="relative px-4 pb-16 pt-10 sm:px-6 lg:px-8 lg:pb-20 lg:pt-14">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_#b8d9f5_0%,_transparent_55%),radial-gradient(ellipse_at_bottom_left,_#d4ebfa_0%,_transparent_50%)]" />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2 lg:gap-12">
+          <div>
+            <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-5xl lg:text-[3.4rem]">
+              Hire people
+              <br />
+              you can
+              <br />
+              <span className="text-sky-600">actually trust.</span>
             </h1>
-            <p className="mt-5 max-w-lg text-lg leading-relaxed text-slate-500">
-              Access top independent talent, carefully verified for skills,
-              experience, and reliability.
+            <p className="mt-5 max-w-md text-base leading-relaxed text-slate-600 sm:text-lg">
+              Verified professionals, escrow-protected payments, and live
+              location when it matters — so you focus on results, not risk.
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Button
-                size="lg"
-                className="h-12 rounded-xl bg-blue-600 px-6 text-base font-semibold hover:bg-blue-700"
-                onClick={() => router.push("/search")}
-              >
-                Find Talent
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-              <Button
-                size="lg"
-                variant="ghost"
-                className="h-12 rounded-xl px-5 text-base font-medium text-blue-600 hover:bg-blue-50 hover:text-blue-700"
-                onClick={() => router.push("/search")}
-              >
-                <Play className="mr-2 h-4 w-4 fill-current" />
-                Learn how it works
-              </Button>
-            </div>
+            <Button
+              size="lg"
+              className="mt-8 h-12 rounded-full bg-slate-900 px-7 text-base font-semibold text-white hover:bg-slate-800"
+              onClick={() => router.push("/search")}
+            >
+              Find talent now
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
           </div>
 
-          {/* Trust strip */}
-          <div className="mt-14 flex flex-wrap items-start gap-8 sm:gap-12">
-            {[
-              {
-                icon: Shield,
-                title: "Vetted Professionals",
-                desc: "Background checked",
-              },
-              {
-                icon: Star,
-                title: "Quality Guaranteed",
-                desc: "Satisfaction assured",
-              },
-              {
-                icon: Lock,
-                title: "Secure Payments",
-                desc: "Protected every step",
-              },
-            ].map((item) => (
-              <div key={item.title} className="flex items-start gap-3">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600">
-                  <item.icon className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-slate-900">
-                    {item.title}
-                  </p>
-                  <p className="text-sm text-slate-500">{item.desc}</p>
-                </div>
+          <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+            <div className="overflow-hidden rounded-[1.75rem] shadow-2xl shadow-sky-900/10">
+              <img
+                src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Professionals collaborating"
+                className="h-72 w-full object-cover sm:h-80 lg:h-[22rem]"
+              />
+            </div>
+            <div className="absolute -left-2 top-6 rounded-2xl border border-white/80 bg-white px-4 py-3 shadow-lg sm:left-0">
+              <p className="text-xs font-medium text-slate-500">In escrow</p>
+              <div className="mt-0.5 flex items-center gap-2">
+                <span className="text-lg font-bold text-slate-900">$1,250</span>
+                <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-600">
+                  Protected
+                </span>
               </div>
+            </div>
+            <div className="absolute -right-1 bottom-8 flex items-center gap-2 rounded-2xl border border-white/80 bg-white px-3.5 py-2.5 shadow-lg sm:right-2">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-sky-100 text-sky-600">
+                <BadgeCheck className="h-4 w-4" />
+              </span>
+              <div>
+                <p className="text-xs font-semibold text-slate-900">
+                  Verified pro
+                </p>
+                <p className="text-[11px] text-slate-500">Background checked</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="relative mx-auto mt-14 grid max-w-4xl grid-cols-3 gap-4 border-t border-sky-200/60 pt-10 text-center">
+          {[
+            { value: "10K+", label: "Verified professionals" },
+            { value: "4.9", label: "Average client rating" },
+            { value: "100%", label: "Escrow-protected jobs" },
+          ].map((s) => (
+            <div key={s.label}>
+              <p className="text-2xl font-extrabold text-slate-900 sm:text-3xl">
+                {s.value}
+              </p>
+              <p className="mt-1 text-xs text-slate-500 sm:text-sm">{s.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="relative px-4 py-6 sm:px-6 lg:px-8">
+        <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2rem]">
+          <img
+            src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1200"
+            alt="Team working together"
+            className="h-72 w-full object-cover sm:h-80 lg:h-96"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/30 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 px-6 pb-8 text-center sm:px-10">
+            <h2 className="text-2xl font-bold text-white sm:text-3xl">
+              Work gets done. Money stays safe.
+            </h2>
+            <p className="mx-auto mt-2 max-w-lg text-sm text-white/80">
+              Fund the job, track progress, release payment only when you
+              approve.
+            </p>
+          </div>
+        </div>
+
+        <div className="relative z-10 mx-auto -mt-8 grid max-w-5xl gap-4 px-2 sm:grid-cols-3 sm:px-0">
+          {[
+            {
+              icon: BadgeCheck,
+              title: "Verified talent",
+              desc: "Real profiles with reviews from completed, escrow-released jobs.",
+              href: "/search",
+            },
+            {
+              icon: Lock,
+              title: "Escrow payments",
+              desc: "Funds stay locked until you confirm the work is done right.",
+              href: "/wallet",
+            },
+            {
+              icon: MapPin,
+              title: "Live location",
+              desc: "See where local pros are while a job is active — only then.",
+              href: "/location",
+            },
+          ].map((card) => (
+            <div
+              key={card.title}
+              className="rounded-2xl border border-slate-100 bg-white p-5 shadow-lg shadow-slate-900/5"
+            >
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-50 text-sky-600">
+                <card.icon className="h-5 w-5" />
+              </span>
+              <h3 className="mt-3 text-base font-bold text-slate-900">
+                {card.title}
+              </h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-slate-500">
+                {card.desc}
+              </p>
+              <Link
+                href={card.href}
+                className="mt-4 inline-flex items-center gap-1 rounded-full bg-slate-900 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-slate-800"
+              >
+                Learn more
+                <ArrowRight className="h-3 w-3" />
+              </Link>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-8 flex items-end justify-between">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+                Top verified professionals
+              </h2>
+              <p className="mt-1 text-slate-500">
+                Handpicked talent ready to start.
+              </p>
+            </div>
+            <Link
+              href="/search"
+              className="hidden items-center gap-1 text-sm font-semibold text-sky-600 hover:text-sky-700 sm:flex"
+            >
+              View all
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {featured.map((pro) => (
+              <Link
+                key={pro.id}
+                href={`/providers/${pro.id}`}
+                className="group rounded-2xl border border-slate-100 bg-[#f7fbfe] p-5 transition hover:border-sky-200 hover:shadow-md"
+              >
+                <div className="flex items-center gap-3">
+                  <img
+                    src={pro.image}
+                    alt={pro.name}
+                    className="h-14 w-14 rounded-full object-cover ring-2 ring-white"
+                  />
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <h3 className="font-semibold text-slate-900">
+                        {pro.name}
+                      </h3>
+                      <BadgeCheck className="h-4 w-4 text-sky-600" />
+                    </div>
+                    <p className="text-sm text-slate-500">{pro.title}</p>
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-sm">
+                  <span className="flex items-center gap-1">
+                    <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                    <span className="font-medium">{pro.rating}</span>
+                    <span className="text-slate-400">({pro.reviews})</span>
+                  </span>
+                  <span className="font-bold text-slate-900">
+                    ${pro.price}
+                    <span className="font-normal text-slate-400">/hr</span>
+                  </span>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Featured Professionals */}
-      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-24">
-        <div className="mb-8 flex items-end justify-between">
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight text-slate-900">
-              Featured Professionals
-            </h2>
-            <p className="mt-1 text-slate-500">
-              Handpicked professionals with verified skills and proven results.
-            </p>
-          </div>
-          <Link
-            href="/search"
-            className="hidden items-center gap-1 text-sm font-semibold text-blue-600 hover:text-blue-700 sm:flex"
-          >
-            View all professionals
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {featured.map((pro) => (
-            <Link
-              key={pro.id}
-              href={pro.href}
-              className="group rounded-2xl border border-slate-100 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-100 hover:shadow-md"
-            >
-              <div className="relative mx-auto h-16 w-16">
-                <img
-                  src={pro.image}
-                  alt={pro.name}
-                  className="h-16 w-16 rounded-full object-cover ring-2 ring-white"
-                />
-                <span className="absolute -bottom-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-white ring-2 ring-white">
-                  <BadgeCheck className="h-3 w-3" />
-                </span>
-              </div>
-              <div className="mt-4 text-center">
-                <h3 className="font-semibold text-slate-900">{pro.name}</h3>
-                <p className="mt-0.5 text-xs font-medium text-blue-600">
-                  Verified
-                </p>
-                <p className="mt-1 text-sm text-slate-500">{pro.title}</p>
-                <p className="mt-0.5 text-xs text-slate-400">{pro.location}</p>
-                <div className="mt-2 flex items-center justify-center gap-1 text-sm">
-                  <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                  <span className="font-medium text-slate-800">
-                    {pro.rating.toFixed(1)}
-                  </span>
-                  <span className="text-slate-400">({pro.reviews})</span>
-                </div>
-                <p className="mt-3 border-t border-slate-100 pt-3 text-base font-bold text-slate-900">
-                  ${pro.price}{" "}
-                  <span className="text-sm font-normal text-slate-400">/hr</span>
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        <div className="mt-6 text-center sm:hidden">
-          <Link href="/search">
-            <Button variant="outline" className="rounded-xl">
-              View all professionals
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
-        </div>
-      </section>
-
-      {/* Marketing strip — trust should not be optional */}
-      <section className="border-y border-slate-100 bg-gradient-to-br from-slate-50 to-blue-50/40">
-        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-20">
-          <div>
-            <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-blue-600">
-              <Shield className="h-4 w-4" />
-              Verified. Trusted. Gig ready.
-            </div>
-            <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-              Trust{" "}
-              <span className="text-blue-600">shouldn't be optional.</span>
-            </h2>
-            <p className="mt-4 max-w-md text-lg text-slate-500">
-              TrustGig connects you with verified professionals you can count
-              on—so you can focus on results, not risks.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-4 text-sm font-medium text-slate-600">
-              <span className="inline-flex items-center gap-1.5">
-                <BadgeCheck className="h-4 w-4 text-blue-600" />
-                Verified Professionals
-              </span>
-              <span className="inline-flex items-center gap-1.5">
-                <Lock className="h-4 w-4 text-blue-600" />
-                Secure & Private
-              </span>
-              <span className="inline-flex items-center gap-1.5">
-                <Star className="h-4 w-4 text-blue-600" />
-                Rated & Reviewed
-              </span>
-            </div>
-            <Button
-              size="lg"
-              className="mt-8 h-12 rounded-xl bg-blue-600 px-7 text-base font-semibold hover:bg-blue-700"
-              onClick={() => router.push("/search")}
-            >
-              Find Trusted Talent
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <p className="mt-4 text-sm text-slate-500">
-              Built for freelancers.{" "}
-              <span className="font-semibold text-blue-600">Trusted</span> by
-              businesses.
-            </p>
-          </div>
-
-          <div className="relative hidden lg:block">
-            <div className="space-y-3">
-              {featured.slice(0, 3).map((pro, i) => (
-                <div
-                  key={pro.id}
-                  className="flex items-center gap-4 rounded-2xl border border-white/80 bg-white p-4 shadow-lg"
-                  style={{ marginLeft: i * 24 }}
-                >
-                  <img
-                    src={pro.image}
-                    alt={pro.name}
-                    className="h-12 w-12 rounded-full object-cover"
-                  />
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <p className="truncate font-semibold text-slate-900">
-                        {pro.title}
-                      </p>
-                      <BadgeCheck className="h-4 w-4 shrink-0 text-blue-600" />
-                    </div>
-                    <div className="mt-0.5 flex items-center gap-1 text-sm text-slate-500">
-                      <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                      {pro.rating.toFixed(1)} ({pro.reviews} reviews)
-                    </div>
-                    <p className="mt-0.5 text-xs font-medium text-emerald-600">
-                      ● Verified
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-        <div className="mb-10 text-center">
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-            How TrustGig works
+      <section className="bg-[#e8f4fc] px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl text-center">
+          <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">
+            It starts with a search
           </h2>
-          <p className="mt-2 text-slate-500">
-            Three simple steps to get work done safely
+          <p className="mx-auto mt-2 max-w-md text-slate-500">
+            Find a pro, fund the job, get it done — with trust built in.
           </p>
-        </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {[
-            {
-              step: "1",
-              title: "Find verified talent",
-              desc: "Browse pros by skill, rating, and location. Every profile is checked before it goes live.",
-            },
-            {
-              step: "2",
-              title: "Hire with escrow",
-              desc: "Fund the job first. Money stays locked until you confirm the work is done.",
-            },
-            {
-              step: "3",
-              title: "Approve & release",
-              desc: "Review the delivery, release payment, and leave a review. Track local jobs live when it matters.",
-            },
-          ].map((item) => (
-            <div
-              key={item.step}
-              className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm"
-            >
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">
-                {item.step}
+          <div className="mt-10 grid gap-6 text-left md:grid-cols-3">
+            {[
+              {
+                step: "1",
+                icon: Search,
+                title: "Browse verified pros",
+                desc: "Filter by skill, rating, rate, and local or remote.",
+              },
+              {
+                step: "2",
+                icon: Wallet,
+                title: "Fund with escrow",
+                desc: "Payment is held safely until you approve the work.",
+              },
+              {
+                step: "3",
+                icon: Users,
+                title: "Approve & release",
+                desc: "Confirm delivery, release funds, leave a review.",
+              },
+            ].map((item) => (
+              <div
+                key={item.step}
+                className="rounded-2xl border border-sky-100 bg-white p-6 shadow-sm"
+              >
+                <div className="mb-3 flex items-center gap-3">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-sm font-bold text-white">
+                    {item.step}
+                  </span>
+                  <item.icon className="h-5 w-5 text-sky-600" />
+                </div>
+                <h3 className="font-bold text-slate-900">{item.title}</h3>
+                <p className="mt-1.5 text-sm text-slate-500">{item.desc}</p>
               </div>
-              <h3 className="text-lg font-semibold text-slate-900">
-                {item.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-500">
-                {item.desc}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Bottom CTA */}
-      <section className="bg-slate-900">
-        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-4 py-14 sm:px-6 md:flex-row md:items-center lg:px-8">
-          <div>
-            <h2 className="text-2xl font-bold text-white sm:text-3xl">
-              Ready to hire with confidence?
-            </h2>
-            <p className="mt-2 text-slate-400">
-              Your next great hire, minus the guesswork.
-            </p>
+            ))}
           </div>
-          <div className="flex flex-wrap gap-3">
-            <Button
-              size="lg"
-              className="h-12 rounded-xl bg-blue-600 px-6 font-semibold hover:bg-blue-700"
-              onClick={() => router.push("/search")}
-            >
-              Find Talent
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="h-12 rounded-xl border-slate-600 bg-transparent px-6 font-semibold text-white hover:bg-slate-800 hover:text-white"
-              onClick={() => router.push("/join")}
-            >
-              Join as a Professional
-            </Button>
-          </div>
+          <Button
+            size="lg"
+            className="mt-10 h-12 rounded-full bg-sky-500 px-8 text-base font-semibold text-white hover:bg-sky-600"
+            onClick={() => router.push("/search")}
+          >
+            Start hiring
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
         </div>
       </section>
 
