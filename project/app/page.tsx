@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import {
-  Shield,
   Lock,
   Star,
   ArrowRight,
@@ -14,14 +14,22 @@ import {
   Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { providers } from "@/lib/providers";
+import { providers, categories } from "@/lib/providers";
 
-const featured = providers.slice(0, 3);
+const featured = providers.slice(0, 6);
 
 export default function Home() {
   const router = useRouter();
+  const [query, setQuery] = useState("");
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (query.trim()) params.set("q", query.trim());
+    router.push(`/search?${params.toString()}`);
+  };
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#e8f4fc]">
@@ -42,25 +50,77 @@ export default function Home() {
               Verified professionals, escrow-protected payments, and live
               location when it matters — so you focus on results, not risk.
             </p>
-            <Button
-              size="lg"
-              className="mt-8 h-12 rounded-full bg-slate-900 px-7 text-base font-semibold text-white hover:bg-slate-800"
-              onClick={() => router.push("/search")}
-            >
-              Find talent now
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+
+            <div className="mt-8 max-w-lg">
+              <div className="flex items-center gap-2 rounded-full border border-sky-100 bg-white p-1.5 shadow-lg shadow-sky-900/5">
+                <div className="relative flex-1">
+                  <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                  <Input
+                    type="text"
+                    placeholder="Search skills, services, or pros..."
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                    className="h-11 border-0 bg-transparent pl-10 text-sm shadow-none focus-visible:ring-0"
+                  />
+                </div>
+                <Button
+                  className="h-11 shrink-0 rounded-full bg-slate-900 px-5 font-semibold text-white hover:bg-slate-800"
+                  onClick={handleSearch}
+                >
+                  Search
+                </Button>
+              </div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {categories.slice(0, 5).map((cat) => (
+                  <Link
+                    key={cat}
+                    href={`/search?category=${encodeURIComponent(cat)}`}
+                    className="rounded-full border border-sky-100 bg-white/80 px-3 py-1 text-xs font-medium text-slate-600 transition hover:border-sky-300 hover:text-sky-700"
+                  >
+                    {cat}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-            <div className="overflow-hidden rounded-[1.75rem] shadow-2xl shadow-sky-900/10">
-              <img
-                src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Professionals collaborating"
-                className="h-72 w-full object-cover sm:h-80 lg:h-[22rem]"
-              />
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-3">
+                <div className="overflow-hidden rounded-2xl shadow-lg">
+                  <img
+                    src={featured[0]?.image}
+                    alt={featured[0]?.name ?? "Professional"}
+                    className="h-40 w-full object-cover sm:h-48"
+                  />
+                </div>
+                <div className="overflow-hidden rounded-2xl shadow-lg">
+                  <img
+                    src={featured[1]?.image}
+                    alt={featured[1]?.name ?? "Professional"}
+                    className="h-28 w-full object-cover sm:h-32"
+                  />
+                </div>
+              </div>
+              <div className="space-y-3 pt-6">
+                <div className="overflow-hidden rounded-2xl shadow-lg">
+                  <img
+                    src={featured[2]?.image}
+                    alt={featured[2]?.name ?? "Professional"}
+                    className="h-28 w-full object-cover sm:h-32"
+                  />
+                </div>
+                <div className="overflow-hidden rounded-2xl shadow-lg">
+                  <img
+                    src={featured[3]?.image}
+                    alt={featured[3]?.name ?? "Professional"}
+                    className="h-40 w-full object-cover sm:h-48"
+                  />
+                </div>
+              </div>
             </div>
-            <div className="absolute -left-2 top-6 rounded-2xl border border-white/80 bg-white px-4 py-3 shadow-lg sm:left-0">
+            <div className="absolute -left-2 top-8 rounded-2xl border border-white/80 bg-white px-4 py-3 shadow-lg sm:left-0">
               <p className="text-xs font-medium text-slate-500">In escrow</p>
               <div className="mt-0.5 flex items-center gap-2">
                 <span className="text-lg font-bold text-slate-900">$1,250</span>
@@ -69,7 +129,7 @@ export default function Home() {
                 </span>
               </div>
             </div>
-            <div className="absolute -right-1 bottom-8 flex items-center gap-2 rounded-2xl border border-white/80 bg-white px-3.5 py-2.5 shadow-lg sm:right-2">
+            <div className="absolute -right-1 bottom-6 flex items-center gap-2 rounded-2xl border border-white/80 bg-white px-3.5 py-2.5 shadow-lg sm:right-2">
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-sky-100 text-sky-600">
                 <BadgeCheck className="h-4 w-4" />
               </span>
@@ -172,7 +232,7 @@ export default function Home() {
                 Top verified professionals
               </h2>
               <p className="mt-1 text-slate-500">
-                Handpicked talent ready to start.
+                Real pros with photos, ratings, and proven work.
               </p>
             </div>
             <Link
@@ -183,39 +243,44 @@ export default function Home() {
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((pro) => (
               <Link
                 key={pro.id}
                 href={`/providers/${pro.id}`}
-                className="group rounded-2xl border border-slate-100 bg-[#f7fbfe] p-5 transition hover:border-sky-200 hover:shadow-md"
+                className="group overflow-hidden rounded-2xl border border-slate-100 bg-[#f7fbfe] shadow-sm transition hover:border-sky-200 hover:shadow-md"
               >
-                <div className="flex items-center gap-3">
+                <div className="relative h-44 overflow-hidden bg-sky-100">
                   <img
                     src={pro.image}
                     alt={pro.name}
-                    className="h-14 w-14 rounded-full object-cover ring-2 ring-white"
+                    className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
                   />
-                  <div>
-                    <div className="flex items-center gap-1.5">
-                      <h3 className="font-semibold text-slate-900">
-                        {pro.name}
-                      </h3>
-                      <BadgeCheck className="h-4 w-4 text-sky-600" />
-                    </div>
-                    <p className="text-sm text-slate-500">{pro.title}</p>
-                  </div>
+                  {pro.verified && (
+                    <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-xs font-semibold text-sky-700 shadow-sm">
+                      <BadgeCheck className="h-3.5 w-3.5" />
+                      Verified
+                    </span>
+                  )}
                 </div>
-                <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-sm">
-                  <span className="flex items-center gap-1">
-                    <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                    <span className="font-medium">{pro.rating}</span>
-                    <span className="text-slate-400">({pro.reviews})</span>
-                  </span>
-                  <span className="font-bold text-slate-900">
-                    ${pro.price}
-                    <span className="font-normal text-slate-400">/hr</span>
-                  </span>
+                <div className="p-4">
+                  <h3 className="font-semibold text-slate-900">{pro.name}</h3>
+                  <p className="mt-0.5 text-sm text-slate-500">{pro.title}</p>
+                  <div className="mt-1 flex items-center gap-1 text-xs text-slate-400">
+                    <MapPin className="h-3 w-3" />
+                    {pro.location}
+                  </div>
+                  <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-3 text-sm">
+                    <span className="flex items-center gap-1">
+                      <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                      <span className="font-medium">{pro.rating}</span>
+                      <span className="text-slate-400">({pro.reviews})</span>
+                    </span>
+                    <span className="font-bold text-slate-900">
+                      ${pro.price}
+                      <span className="font-normal text-slate-400">/hr</span>
+                    </span>
+                  </div>
                 </div>
               </Link>
             ))}
